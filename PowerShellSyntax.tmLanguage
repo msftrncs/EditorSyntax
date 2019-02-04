@@ -589,7 +589,7 @@
 					<array>
 						<dict>
 							<key>begin</key>
-							<string>\G</string>
+							<string>\G(?=[^\n(){}|,;&amp;])</string>
 							<key>end</key>
 							<string>(?=[(){}|,;&amp;\s])</string>
 							<key>applyEndPatternLast</key>
@@ -1099,35 +1099,28 @@
 				</dict>
 				<dict>
 					<key>comment</key>
-					<string>Builtin cmdlets with reserved verbs</string>
-					<key>match</key>
-					<string>(?&lt;!\w)(?i:foreach-object)(?!\w)</string>
-					<key>name</key>
-					<string>support.function.powershell</string>
-				</dict>
-				<dict>
-					<key>comment</key>
-					<string>Builtin cmdlets with reserved verbs</string>
-					<key>match</key>
-					<string>(?&lt;!\w)(?i:where-object)(?!\w)</string>
-					<key>name</key>
-					<string>support.function.powershell</string>
-				</dict>
-				<dict>
-					<key>comment</key>
-					<string>Builtin cmdlets with reserved verbs</string>
-					<key>match</key>
-					<string>(?&lt;!\w)(?i:sort-object)(?!\w)</string>
-					<key>name</key>
-					<string>support.function.powershell</string>
-				</dict>
-				<dict>
-					<key>comment</key>
-					<string>Builtin cmdlets with reserved verbs</string>
-					<key>match</key>
-					<string>(?&lt;!\w)(?i:tee-object)(?!\w)</string>
-					<key>name</key>
-					<string>support.function.powershell</string>
+					<string>Builtin cmdlets with reserved verbs, trailing negative lookahead needs work</string>
+					<key>begin</key>
+					<string>(?&lt;!\w)(?i:(?:foreach|where|sort|tee)-object)(?!\w)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>support.function.powershell</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>$(?=\n)|(?=[;&amp;|)}\]])</string>
+					<key>applyEndPatternLast</key>
+					<false/>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#argument_mode</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
