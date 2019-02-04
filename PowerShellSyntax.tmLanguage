@@ -538,7 +538,7 @@
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?=\$[{(\w:$?^]|@[({]|(?&gt;@(?:(?&gt;[\w][\w?]*:|:)?(?:[\w](?:[\w?]|:(?!:))*|:(?!:))|[$?^:]))[^~`!@#$%^*&lt;&gt;\]\\/"\x{201C}-\x{201E}'\x{2018}-\x{201B}+-]|[,(\["\x{201C}-\x{201E}'\x{2018}-\x{201B}!+-])|(?=@?(['\x{2018}-\x{201B}"\x{201C}-\x{201E}]))(?:(?&lt;!@\g&lt;1&gt;)|\s*$)</string>
+					<string>(?=\$[{(\w:$?^]|@[({]|(?&gt;@(?:(?&gt;[\w][\w?]*:|:)?(?:[\w](?:[\w?]|:(?!:))*|:(?!:))|[$?^:]))[^~`!@#$%^*&lt;&gt;\]\\/"\x{201C}-\x{201E}'\x{2018}-\x{201B}+\x{2013}-\x{2015}-]|[,(\["\x{201C}-\x{201E}'\x{2018}-\x{201B}!+\x{2013}-\x{2015}-])|(?=@?(['\x{2018}-\x{201B}"\x{201C}-\x{201E}]))(?:(?&lt;!@\g&lt;1&gt;)|\s*$)</string>
 					<key>end</key>
 					<string>$(?=\n)|(?=[;&amp;|)}\]])</string>
 					<key>patterns</key>
@@ -592,8 +592,6 @@
 							<string>\G(?=[^\n(){}|,;&amp;])</string>
 							<key>end</key>
 							<string>(?=[(){}|,;&amp;\s])</string>
-							<key>applyEndPatternLast</key>
-							<false/>
 							<key>contentName</key>
 							<string>variable.function.powershell</string>
 							<key>patterns</key>
@@ -609,8 +607,6 @@
 							<string>(?![\n;&amp;|)}\]])</string>
 							<key>end</key>
 							<string>$(?=\n)|(?=[;&amp;|)}\]])</string>
-							<key>applyEndPatternLast</key>
-							<false/>
 							<key>patterns</key>
 							<array>
 								<dict>
@@ -724,7 +720,7 @@
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?=@[({]|(?&gt;@(?:(?&gt;[\w][\w?]*:|:)?(?:[\w](?:[\w?]|:(?!:))*|:(?!:))|[$?^:]))[^~`!@#$%^*&lt;&gt;\]\\/"\x{201C}-\x{201E}'\x{2018}-\x{201B}+-]|[("\x{201C}-\x{201E}'\x{2018}-\x{201B}])|(?=@?(['\x{2018}-\x{201B}"\x{201C}-\x{201E}])(?:(?&lt;!@\g&lt;1&gt;)|\s*$))</string>
+					<string>(?=@[({]|(?&gt;@(?:(?&gt;[\w][\w?]*:|:)?(?:[\w](?:[\w?]|:(?!:))*|:(?!:))|[$?^:]))[^~`!@#$%^*&lt;&gt;\]\\/"\x{201C}-\x{201E}'\x{2018}-\x{201B}+\x{2013}-\x{2015}-]|[("\x{201C}-\x{201E}'\x{2018}-\x{201B}])|(?=@?(['\x{2018}-\x{201B}"\x{201C}-\x{201E}])(?:(?&lt;!@\g&lt;1&gt;)|\s*$))</string>
 					<key>end</key>
 					<string>$(?=\n)|(?=[,;&amp;|)}\s])</string>
 					<key>patterns</key>
@@ -766,12 +762,16 @@
 			<string>(?=[^\x{2018}-\x{201B}"\x{201C}-\x{201E}\s\[(){}|,;&amp;$@])|(?&lt;=\S)(?=[$@&lt;&gt;])</string>
 			<key>end</key>
 			<string>(?=[(){}|,;&amp;\s])</string>
-			<key>applyEndPatternLast</key>
-			<false/>
 			<key>contentName</key>
 			<string>string.unquoted.argument.powershell</string>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>match</key>
+					<string>\G`[\x{2013}-\x{2015}-]</string>
+					<key>name</key>
+					<string>constant.character.escape.powershell</string>
+				</dict>
 				<dict>
 					<key>include</key>
 					<string>#unquotedStrings_text</string>
@@ -986,7 +986,7 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>`(?:[`0abefnrtv"\x{201C}-\x{201E}'\x{2018}-\x{201B}$@#\n])</string>
+					<string>`(?:[`0abefnrtv"\x{201C}-\x{201E}'\x{2018}-\x{201B}$@#&lt;&gt;(){}|,;&amp;\n])</string>
 					<key>name</key>
 					<string>constant.character.escape.powershell</string>
 				</dict>
@@ -1076,7 +1076,7 @@
 					<key>comment</key>
 					<string>Verb-Noun pattern:</string>
 					<key>begin</key>
-					<string>(?:(\p{L}|\d|_|-|\\|:)*\\)?\b(?i:Add|Approve|Assert|Backup|Block|Build|Checkpoint|Clear|Close|Compare|Complete|Compress|Confirm|Connect|Convert|ConvertFrom|ConvertTo|Copy|Debug|Deny|Deploy|Disable|Disconnect|Dismount|Edit|Enable|Enter|Exit|Expand|Export|Find|Format|Get|Grant|Group|Hide|Import|Initialize|Install|Invoke|Join|Limit|Lock|Measure|Merge|Mount|Move|New|Open|Optimize|Out|Ping|Pop|Protect|Publish|Push|Read|Receive|Redo|Register|Remove|Rename|Repair|Request|Reset|Resize|Resolve|Restart|Restore|Resume|Revoke|Save|Search|Select|Send|Set|Show|Skip|Split|Start|Step|Stop|Submit|Suspend|Switch|Sync|Test|Trace|Unblock|Undo|Uninstall|Unlock|Unprotect|Unpublish|Unregister|Update|Use|Wait|Watch|Write)-.+?(?:\.(?i:exe|cmd|bat|ps1))?\b</string>
+					<string>(?:(\p{L}|\d|_|-|\\|:)*\\)?\b(?i:Add|Approve|Assert|Backup|Block|Build|Checkpoint|Clear|Close|Compare|Complete|Compress|Confirm|Connect|Convert|ConvertFrom|ConvertTo|Copy|Debug|Deny|Deploy|Disable|Disconnect|Dismount|Edit|Enable|Enter|Exit|Expand|Export|Find|Format|Get|Grant|Group|Hide|Import|Initialize|Install|Invoke|Join|Limit|Lock|Measure|Merge|Mount|Move|New|Open|Optimize|Out|Ping|Pop|Protect|Publish|Push|Read|Receive|Redo|Register|Remove|Rename|Repair|Request|Reset|Resize|Resolve|Restart|Restore|Resume|Revoke|Save|Search|Select|Send|Set|Show|Skip|Split|Start|Step|Stop|Submit|Suspend|Switch|Sync|Test|Trace|Unblock|Undo|Uninstall|Unlock|Unprotect|Unpublish|Unregister|Update|Use|Wait|Watch|Write)-(?:`.|.)+?(?:\.(?i:exe|cmd|bat|ps1))?(?=[(){}|,;&amp;\s])</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
@@ -1101,7 +1101,7 @@
 					<key>comment</key>
 					<string>Builtin cmdlets with reserved verbs, trailing negative lookahead needs work</string>
 					<key>begin</key>
-					<string>(?&lt;!\w)(?i:(?:foreach|where|sort|tee)-object)(?!\w)</string>
+					<string>(?&lt;!\w)(?i:(?:foreach|where|sort|tee)-object)(?=[(){}|,;&amp;\s])</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>0</key>
@@ -3233,11 +3233,34 @@
 				</dict>
 				<dict>
 					<key>comment</key>
-					<string>`|` resume's in command mode, `,` just continues</string>
+					<string>`,` just continues current mode</string>
 					<key>match</key>
-					<string>[,|]</string>
+					<string>,</string>
 					<key>name</key>
 					<string>punctuation.separator.powershell</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>`|` resume's in command mode</string>
+					<key>begin</key>
+					<string>\|</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.separator.powershell</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>$(?=\n)|(?=[;&amp;|)}\]])</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#command_mode</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
@@ -3262,8 +3285,6 @@
 					</dict>
 					<key>end</key>
 					<string>$(?=\n)|(?=[,;&amp;|)}\]])</string>
-					<key>applyEndPatternLast</key>
-					<true/>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -3293,8 +3314,6 @@
 					</dict>
 					<key>end</key>
 					<string>$(?=\n)|(?=[,;&amp;|)}\]])</string>
-					<key>applyEndPatternLast</key>
-					<true/>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -3324,8 +3343,6 @@
 					</dict>
 					<key>end</key>
 					<string>$(?=\n)|(?=[,;&amp;|)}\]])</string>
-					<key>applyEndPatternLast</key>
-					<true/>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -3355,8 +3372,6 @@
 					</dict>
 					<key>end</key>
 					<string>$(?=\n)|(?=[,;&amp;|)}\]])</string>
-					<key>applyEndPatternLast</key>
-					<true/>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -3386,8 +3401,6 @@
 					</dict>
 					<key>end</key>
 					<string>$(?=\n)|(?=[,;&amp;|)}\]])</string>
-					<key>applyEndPatternLast</key>
-					<true/>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -3417,8 +3430,6 @@
 					</dict>
 					<key>end</key>
 					<string>$(?=\n)|(?=[,;&amp;|)}\]])</string>
-					<key>applyEndPatternLast</key>
-					<false/>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -3454,8 +3465,6 @@
 					</dict>
 					<key>end</key>
 					<string>$(?=\n)|(?=[,;&amp;|)}\]])</string>
-					<key>applyEndPatternLast</key>
-					<false/>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -3477,8 +3486,6 @@
 					</dict>
 					<key>end</key>
 					<string>$(?=\n)|(?=[,;&amp;|)}\]])</string>
-					<key>applyEndPatternLast</key>
-					<false/>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -3502,8 +3509,6 @@
 					</dict>
 					<key>end</key>
 					<string>$(?=\n)|(?=[,;&amp;|)}\]])</string>
-					<key>applyEndPatternLast</key>
-					<false/>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -3549,8 +3554,6 @@
 					<string>(?=[^\x{2018}-\x{201B}"\x{201C}-\x{201E}\s\[(){}|,;&amp;$@])|(?&lt;=\S)(?=[$@&lt;&gt;])</string>
 					<key>end</key>
 					<string>(?=[(){}|,;&amp;\s])</string>
-					<key>applyEndPatternLast</key>
-					<false/>
 					<key>contentName</key>
 					<string>invalid.source.powershell</string>
 					<key>patterns</key>
