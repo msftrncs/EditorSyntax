@@ -761,9 +761,20 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?:(?&lt;!\w|!)|\G)[\x{2013}-\x{2015}-]\p{L}\w*</string>
-					<key>name</key>
-					<string>entity.name.parameter.powershell</string>
+					<string>([\x{2013}-\x{2015}-]\p{L}\w*)(:)?</string>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>entity.name.parameter.powershell</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.separator.parameter-value.powershell</string>
+						</dict>
+					</dict>
 				</dict>
 				<dict>
 					<key>begin</key>
