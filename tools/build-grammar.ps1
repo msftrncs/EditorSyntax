@@ -1,5 +1,7 @@
-$grammar_plist = [xml](get-content "PowerShellSyntax.tmLanguage") |
-    .\plist` reader
+# read in the PList grammar
+$grammar_plist = [xml](get-content 'PowerShellSyntax.tmLanguage') | .\plist` reader
+
+# create the JSON grammar heading, including the commit version
 $grammar_json = [ordered]@{
     information_for_contributors =
     'This file has been converted from source and may not be in line with the official build.',
@@ -8,11 +10,22 @@ $grammar_json = [ordered]@{
     version                      = git rev-parse HEAD
 }
 
+# move select items from the PList to the JSON grammar in a specific order, if they exist in the PList
 foreach ($key in ('name', 'scopeName', 'comment', 'injections', 'patterns', 'repository')) {
-    if ($grammar_plist.$key) {$grammar_json += [ordered]@{ $key = $grammar_plist.$key}
+    if ($grammar_plist.$key) {
+        $grammar_json += [ordered]@{
+            $key = $grammar_plist.$key
+        }
     }
 }
 
-$grammar_json | convertto-json -depth 100 |
-    foreach-object {$_ -replace "(?m)  (?<=^(?:  )*)", "`t" } |
-    set-content "grammars\powershell.tmLanguage.json"
+# create the output folder if it does not exist
+if (!(test-path 'grammars' -PathType Container)) {
+    new-item 'grammars' -ItemType Directory
+}
+
+# output the final JSON grammar (changing the leading double spaces to tabs)
+# Note: on PS <= 5.1, ConvertTo-JSON uses 4 spaces or alignment with the parent property,
+#       PS >= 6.0 uses 2, so the `-replace` only works correctly with PS >= 6.0
+($grammar_json | convertto-json -depth 100) -replace "(?m)  (?<=^(?:  )*)", "`t" |
+    set-content 'grammars\powershell.tmLanguage.json'
