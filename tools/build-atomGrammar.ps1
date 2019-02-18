@@ -15,7 +15,7 @@ foreach ($key in $grammar_plist.keys) {
 
 # create the output folder if it does not exist
 if (!(Test-Path 'grammars' -PathType Container)) {
-    New-Item 'grammars' -ItemType Directory
+    New-Item 'grammars' -ItemType Directory | Out-Null
 }
 
 # output the Atom CSON grammar (escaping what appear to be subexpressions)

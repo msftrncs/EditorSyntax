@@ -21,7 +21,7 @@ foreach ($key in 'name', 'scopeName', 'comment', 'injections', 'patterns', 'repo
 
 # create the output folder if it does not exist
 if (!(Test-Path 'grammars' -PathType Container)) {
-    New-Item 'grammars' -ItemType Directory
+    New-Item 'grammars' -ItemType Directory | Out-Null
 }
 
 # output the final JSON grammar (changing the leading double spaces to tabs)
