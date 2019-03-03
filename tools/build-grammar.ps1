@@ -28,4 +28,4 @@ if (!(Test-Path 'grammars' -PathType Container)) {
 # Note: on PS <= 5.1, ConvertTo-JSON uses 4 spaces or alignment with the parent property,
 #       PS >= 6.0 uses 2, so the `-replace` only works correctly with PS >= 6.0
 ($grammar_json | ConvertTo-Json -depth 100) -replace "(?m)  (?<=^(?:  )*)", "`t" |
-    Set-Content 'grammars\powershell.tmLanguage.json'
+    Set-Content 'grammars\powershell.tmLanguage.json' -Encoding 'UTF8'

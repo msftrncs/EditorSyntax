@@ -18,6 +18,6 @@ if (!(Test-Path 'grammars' -PathType Container)) {
     New-Item 'grammars' -ItemType Directory | Out-Null
 }
 
-# output the Atom CSON grammar (escaping what appear to be subexpressions)
-($grammar_atom | ConvertTo-Json -depth 100 | json2cson ) -replace '(?<!\\)(#\{)', '\$1' |
-    Set-Content 'grammars\powershell.cson'
+# output the Atom CSON grammar
+$grammar_atom | ConvertTo-Cson -depth 100 |
+    Set-Content 'grammars\powershell.cson' -Encoding 'UTF8'
