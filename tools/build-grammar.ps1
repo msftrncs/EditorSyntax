@@ -1,4 +1,4 @@
-# convert the PowerShell grammar from PLIST to CSON format for use in the Language-PowerShell package for Atom
+# convert the PowerShell grammar from PLIST to JSON format
 try {
     # create the output folder if it does not exist
     if (-not (Test-Path 'grammars' -PathType Container)) {
